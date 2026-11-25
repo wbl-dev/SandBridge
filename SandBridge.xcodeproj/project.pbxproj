@@ -1,0 +1,234 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		330000010000000000000001 /* SandBridgeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330000020000000000000001 /* SandBridgeApp.swift */; };
+		330000010000000000000002 /* DeviceCtlService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330000020000000000000002 /* DeviceCtlService.swift */; };
+		330000010000000000000003 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330000020000000000000003 /* AppViewModel.swift */; };
+		330000010000000000000004 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330000020000000000000004 /* ContentView.swift */; };
+		330000010000000000000005 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 330000020000000000000006 /* AppIcon.icns */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		330000020000000000000001 /* SandBridgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandBridgeApp.swift; sourceTree = "<group>"; };
+		330000020000000000000002 /* DeviceCtlService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCtlService.swift; sourceTree = "<group>"; };
+		330000020000000000000003 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		330000020000000000000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		330000020000000000000005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		330000020000000000000006 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		330000030000000000000001 /* SandBridge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SandBridge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		330000040000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		330000050000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				330000050000000000000002 /* SandBridge */,
+				330000050000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		330000050000000000000002 /* SandBridge */ = {
+			isa = PBXGroup;
+			children = (
+				330000020000000000000001 /* SandBridgeApp.swift */,
+				330000020000000000000002 /* DeviceCtlService.swift */,
+				330000020000000000000003 /* AppViewModel.swift */,
+				330000020000000000000004 /* ContentView.swift */,
+				330000020000000000000005 /* Info.plist */,
+				330000020000000000000006 /* AppIcon.icns */,
+			);
+			path = SandBridge;
+			sourceTree = "<group>";
+		};
+		330000050000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				330000030000000000000001 /* SandBridge.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		330000060000000000000001 /* SandBridge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 330000090000000000000002 /* Build configuration list for PBXNativeTarget "SandBridge" */;
+			buildPhases = (
+				330000070000000000000001 /* Sources */,
+				330000040000000000000001 /* Frameworks */,
+				3300000B0000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SandBridge;
+			productName = SandBridge;
+			productReference = 330000030000000000000001 /* SandBridge.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		330000080000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 330000090000000000000001 /* Build configuration list for PBXProject "SandBridge" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = zh_CN;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				zh_CN,
+				Base,
+			);
+			mainGroup = 330000050000000000000001;
+			productRefGroup = 330000050000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				330000060000000000000001 /* SandBridge */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3300000B0000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				330000010000000000000005 /* AppIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		330000070000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				330000010000000000000001 /* SandBridgeApp.swift in Sources */,
+				330000010000000000000002 /* DeviceCtlService.swift in Sources */,
+				330000010000000000000003 /* AppViewModel.swift in Sources */,
+				330000010000000000000004 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3300000A0000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3300000A0000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3300000A0000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SandBridge/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandbridge.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3300000A0000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SandBridge/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sandbridge.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		330000090000000000000001 /* Build configuration list for PBXProject "SandBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3300000A0000000000000001 /* Debug */,
+				3300000A0000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		330000090000000000000002 /* Build configuration list for PBXNativeTarget "SandBridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3300000A0000000000000003 /* Debug */,
+				3300000A0000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 330000080000000000000001 /* Project object */;
+}
