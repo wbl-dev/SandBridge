@@ -115,13 +115,22 @@ final class DeviceCtlService {
             let rawRel = (f["relativePath"] as? String) ?? (f["name"] as? String) ?? ""
             let rel = rawRel.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
             if rel.isEmpty || rel == cleanSub { continue }
+            // devicectl 传入 --subdirectory 时，返回的 relativePath 是相对于该子目录的，需拼回完整沙盒路径
+            let fullPath: String
+            if cleanSub.isEmpty {
+                fullPath = rel
+            } else if rel.hasPrefix(cleanSub + "/") {
+                fullPath = rel
+            } else {
+                fullPath = "\(cleanSub)/\(rel)"
+            }
             let res = f["resources"] as? [String: Any] ?? [:]
             let meta = f["metadata"] as? [String: Any] ?? [:]
             let isDir = (res["isDirectory"] as? Bool) ?? false
             let size = (meta["size"] as? NSNumber)?.int64Value ?? 0
             let mod = (meta["lastModDate"] as? String) ?? ""
-            let name = URL(fileURLWithPath: rel).lastPathComponent
-            let entry = SandboxEntry(name: name, path: rel, isDir: isDir, size: size, modified: mod)
+            let name = URL(fileURLWithPath: fullPath).lastPathComponent
+            let entry = SandboxEntry(name: name, path: fullPath, isDir: isDir, size: size, modified: mod)
             if isDir { dirs.append(entry) } else { files.append(entry) }
         }
         dirs.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
