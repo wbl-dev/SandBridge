@@ -56,3 +56,17 @@ jobs:
             dist/SandBridge-*.dmg
             dist/SandBridge-*.zip
             dist/checksums.txt
+
+      - name: Update Homebrew Cask
+        run: |
+          VER="${{ steps.ver.outputs.version }}"
+          SHA=$(shasum -a 256 "dist/SandBridge-${VER}.dmg" | awk '{print $1}')
+          git fetch origin main
+          git checkout main
+          sed -i '' "s/version \".*\"/version \"${VER}\"/" Casks/sandbridge.rb
+          sed -i '' "s/sha256 .*/sha256 \"${SHA}\"/" Casks/sandbridge.rb
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Casks/sandbridge.rb
+          git diff --cached --quiet || git commit -m "chore: bump homebrew cask to v${VER}"
+          git push origin main

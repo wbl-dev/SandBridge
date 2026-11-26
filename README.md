@@ -20,11 +20,23 @@
 
 ## 安装与使用
 
+### 方式一：Homebrew 安装（推荐，自动免弹窗）
+```bash
+brew tap wbl-dev/sandbridge https://github.com/wbl-dev/SandBridge
+brew install --cask wbl-dev/sandbridge/sandbridge
+```
+后续升级只需运行：
+```bash
+brew upgrade --cask sandbridge
+```
+
+### 方式二：手动下载 DMG
 1. 前往 GitHub **Releases** 下载最新的 `SandBridge-x.y.z.dmg`，拖入「应用程序」；
-2. 首次打开若 macOS 提示“无法验证开发者”（未公证的 Ad-Hoc 签名版本），请右键点击 App 选择「打开」，或在终端执行一次：
+2. 首次打开若 macOS 提示“无法验证开发者”（未公证的 Ad-Hoc 签名版本），在终端执行一次即可：
    ```bash
    xattr -cr /Applications/SandBridge.app
    ```
+   或在「系统设置 → 隐私与安全性」底部点击「仍要打开」。
 
 ## 本地构建与发布
 
