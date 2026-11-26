@@ -7,6 +7,7 @@ struct IOSDevice: Identifiable, Hashable {
     let osVersion: String
     let transport: String
     let tunnelState: String
+    let isOnline: Bool
 }
 
 struct IOSAppInfo: Identifiable, Hashable {
@@ -54,14 +55,30 @@ final class DeviceCtlService {
             guard (hw["reality"] as? String) == "physical" else { continue }
             let transport = conn["transportType"] as? String ?? "unknown"
             let tunnel = conn["tunnelState"] as? String ?? "unknown"
-            guard tunnel == "connected" || transport == "wired" || transport == "localNetwork" else { continue }
+            let pairing = conn["pairingState"] as? String ?? "unknown"
+            let online = (tunnel == "connected" || tunnel == "available" || transport == "wired" || transport == "localNetwork")
+            guard online || pairing == "paired" else { continue }
 
             let udid = (hw["udid"] as? String) ?? (d["identifier"] as? String) ?? ""
             let name = (props["name"] as? String) ?? (hw["marketingName"] as? String) ?? "iPhone"
             let model = (hw["marketingName"] as? String) ?? (hw["productType"] as? String) ?? ""
             let osVer = (props["osVersionNumber"] as? String) ?? ""
-            let tLabel = transport == "wired" ? "USB" : (transport == "localNetwork" ? "Wi-Fi" : transport)
-            out.append(IOSDevice(id: udid, name: name, model: model, osVersion: osVer, transport: tLabel, tunnelState: tunnel))
+            let tLabel: String
+            if transport == "wired" {
+                tLabel = "USB"
+            } else if transport == "localNetwork" {
+                tLabel = "Wi-Fi"
+            } else if online {
+                tLabel = "Wi-Fi"
+            } else {
+                tLabel = "离线"
+            }
+            out.append(IOSDevice(id: udid, name: name, model: model, osVersion: osVer, transport: tLabel, tunnelState: tunnel, isOnline: online))
+        }
+        out.sort {
+            if $0.isOnline != $1.isOnline { return $0.isOnline }
+            if $0.transport != $1.transport { return $0.transport == "USB" }
+            return $0.name < $1.name
         }
         return out
     }

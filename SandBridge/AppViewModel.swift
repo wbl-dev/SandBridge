@@ -51,30 +51,70 @@ final class AppViewModel: ObservableObject {
         return entries.filter { $0.name.lowercased().contains(kw) }
     }
 
-    func refreshDevices() async {
-        isLoading = true
-        statusMessage = "正在扫描已连接 iPhone..."
-        errorMessage = nil
+    @Published var isAutoScanning: Bool = true
+    private var scanTask: Task<Void, Never>?
+
+    func startAutoScan() {
+        scanTask?.cancel()
+        isAutoScanning = true
+        scanTask = Task { [weak self] in
+            while !Task.isCancelled {
+                guard let self else { break }
+                if self.isAutoScanning {
+                    await self.refreshDevices(silent: !self.devices.isEmpty)
+                }
+                try? await Task.sleep(nanoseconds: 4_000_000_000)
+            }
+        }
+    }
+
+    func refreshDevices(silent: Bool = false) async {
+        if !silent {
+            isLoading = true
+            statusMessage = "正在扫描 USB / Wi-Fi 设备..."
+            errorMessage = nil
+        }
         do {
             let list = try await service.listDevices()
-            devices = list
-            if let cur = selectedDevice, list.contains(where: { $0.id == cur.id }) {
-                // keep
-            } else {
-                selectedDevice = list.first
-                if selectedDevice != nil {
-                    await refreshApps()
-                } else {
-                    apps = []
-                    entries = []
-                }
+            let changed = list != devices
+            if changed {
+                devices = list
             }
-            statusMessage = list.isEmpty ? "未检测到已连接真机（请插 USB 或保持同 Wi-Fi）" : "已发现 \(list.count) 台设备"
+            let onlineList = list.filter { $0.isOnline }
+            if let cur = selectedDevice, let updated = list.first(where: { $0.id == cur.id }) {
+                if updated != cur { selectedDevice = updated }
+            } else if let firstOnline = onlineList.first {
+                selectedDevice = firstOnline
+                await refreshApps()
+            } else if selectedDevice != nil {
+                selectedDevice = nil
+                apps = []
+                entries = []
+            }
+            if !silent {
+                statusMessage = onlineList.isEmpty ? "正在等待 USB 或同局域网 Wi-Fi 设备上线..." : "已发现 \(onlineList.count) 台在线设备"
+            }
         } catch {
-            errorMessage = error.localizedDescription
-            statusMessage = "扫描失败"
+            if !silent {
+                errorMessage = error.localizedDescription
+                statusMessage = "扫描失败"
+            }
         }
-        isLoading = false
+        if !silent {
+            isLoading = false
+        }
+    }
+
+    func goUpOneLevel() async {
+        guard !currentPath.isEmpty else { return }
+        let parts = currentPath.split(separator: "/").dropLast()
+        await openPath(parts.joined(separator: "/"))
+    }
+
+    func copyPathToPasteboard(_ path: String) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(path, forType: .string)
+        statusMessage = "已复制路径: \(path)"
     }
 
     func selectDevice(_ dev: IOSDevice) async {
