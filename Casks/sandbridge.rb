@@ -1,6 +1,6 @@
 cask "sandbridge" do
-  version "1.0.2"
-  sha256 :no_check
+  version "1.0.3"
+  sha256 "0ade5b6894032c198a87f3def0364a676d03021566bd8b8291d837923844ecfc"
 
   url "https://github.com/wbl-dev/SandBridge/releases/download/v#{version}/SandBridge-#{version}.dmg"
   name "SandBridge"
