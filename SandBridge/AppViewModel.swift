@@ -241,15 +241,72 @@ final class AppViewModel: ObservableObject {
         await uploadURLs(panel.urls)
     }
 
+    func makeDragItemProvider(for entry: SandboxEntry) -> NSItemProvider {
+        guard let dev = selectedDevice, let app = selectedApp else {
+            return NSItemProvider()
+        }
+        let deviceId = dev.id
+        let bundleId = app.bundleId
+        let remotePath = entry.path
+        let fileName = entry.name
+        let isDir = entry.isDir
+
+        let ext = URL(fileURLWithPath: fileName).pathExtension
+        let contentType: UTType = isDir ? .folder : (UTType(filenameExtension: ext) ?? .data)
+
+        let provider = NSItemProvider()
+        provider.suggestedName = fileName
+        provider.registerFileRepresentation(
+            forTypeIdentifier: contentType.identifier,
+            fileOptions: [],
+            visibility: .all
+        ) { [weak self] completion in
+            let progress = Progress(totalUnitCount: 100)
+            Task {
+                await MainActor.run {
+                    self?.statusMessage = "正在拖出 \(fileName)..."
+                }
+                let dragDir = FileManager.default.temporaryDirectory
+                    .appendingPathComponent("SandBridgeDragCache", isDirectory: true)
+                    .appendingPathComponent(UUID().uuidString, isDirectory: true)
+                try? FileManager.default.createDirectory(at: dragDir, withIntermediateDirectories: true)
+                let dest = dragDir.appendingPathComponent(fileName)
+                do {
+                    try await DeviceCtlService.shared.copyFromDevice(
+                        deviceId: deviceId,
+                        bundleId: bundleId,
+                        remotePath: remotePath,
+                        destination: dest
+                    )
+                    progress.completedUnitCount = 100
+                    await MainActor.run {
+                        self?.statusMessage = "已拖出 \(fileName)"
+                    }
+                    completion(dest, false, nil)
+                } catch {
+                    await MainActor.run {
+                        self?.errorMessage = "拖出失败: \(error.localizedDescription)"
+                        self?.statusMessage = "拖出失败"
+                    }
+                    completion(nil, false, error)
+                }
+            }
+            return progress
+        }
+        return provider
+    }
+
     func uploadURLs(_ urls: [URL]) async {
-        guard let dev = selectedDevice, let app = selectedApp, !urls.isEmpty else { return }
+        // 忽略从自身拖出缓存目录回落的文件，防止误触自我上传
+        let validURLs = urls.filter { !$0.path.contains("SandBridgeDragCache") }
+        guard let dev = selectedDevice, let app = selectedApp, !validURLs.isEmpty else { return }
         isLoading = true
         do {
-            for url in urls {
+            for url in validURLs {
                 statusMessage = "正在上传 \(url.lastPathComponent)..."
                 try await service.copyToDevice(deviceId: dev.id, bundleId: app.bundleId, localURL: url, remoteDir: currentPath)
             }
-            statusMessage = "已上传 \(urls.count) 个文件"
+            statusMessage = "已上传 \(validURLs.count) 个文件"
             await refreshFiles()
         } catch {
             errorMessage = error.localizedDescription

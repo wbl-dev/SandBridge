@@ -369,6 +369,9 @@ struct ContentView: View {
         }
         .padding(.vertical, 2)
         .contentShape(Rectangle())
+        .onDrag {
+            vm.makeDragItemProvider(for: entry)
+        }
         .onTapGesture(count: 2) {
             if entry.isDir {
                 Task { await vm.openPath(entry.path) }
